@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}TempuGo Bangladesh | Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content glass-card">
+        <span class="pill">Bangladesh Local Ride Platform</span>
+        <h1>Pathao-style Tempu service management system</h1>
+        <p>
+            Book local tempu/CNG rides, manage drivers, assign vehicles, track ride status,
+            calculate fares, collect payments and handle support from one simple dashboard.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('book_ride') }}" class="btn primary">Book a Ride</a>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn secondary">Open Dashboard</a>
+        </div>
+    </div>
+
+    <div class="hero-panel glass-card">
+        <h3>Quick Fare Estimate</h3>
+        <div class="mini-form">
+            <label>Distance KM</label>
+            <input type="number" id="quickDistance" value="5" min="1" step="0.5">
+            <label>Passengers</label>
+            <input type="number" id="quickPassengers" value="1" min="1" max="4">
+            <button class="btn primary full" onclick="quickFareEstimate()">Calculate</button>
+            <div class="fare-result" id="quickFareResult">Estimated fare: ৳120</div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card">
+        <span>Total Drivers</span>
+        <strong>{{ total_drivers }}</strong>
+        <small>{{ available_drivers }} available now</small>
+    </div>
+    <div class="stat-card">
+        <span>Total Vehicles</span>
+        <strong>{{ total_vehicles }}</strong>
+        <small>{{ active_vehicles }} active vehicles</small>
+    </div>
+    <div class="stat-card">
+        <span>Total Rides</span>
+        <strong>{{ total_rides }}</strong>
+        <small>{{ completed_rides }} completed rides</small>
+    </div>
+    <div class="stat-card">
+        <span>Completed Income</span>
+        <strong>৳{{ total_earning }}</strong>
+        <small>Only completed rides</small>
+    </div>
+</section>
+
+<section class="feature-section">
+    <div class="section-heading">
+        <span class="pill">Professional Features</span>
+        <h2>Made for Bangladesh local transport business</h2>
+    </div>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📍</div>
+            <h3>Smart Ride Booking</h3>
+            <p>Passenger name, phone, pickup, drop-off, distance, passengers and payment method.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🛺</div>
+            <h3>Driver & Tempu Assign</h3>
+            <p>Available driver and active vehicle can be assigned automatically to a new ride.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💳</div>
+            <h3>Cash/bKash/Nagad</h3>
+            <p>Bangladesh-friendly payment options for local passenger ride management.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Admin Dashboard</h3>
+            <p>Track ride income, pending rides, recent drivers, vehicles and support tickets.</p>
+        </div>
+    </div>
+</section>
+
+<section class="table-card glass-card">
+    <div class="table-header">
+        <h2>Recent Ride Requests</h2>
+        <a href="{{ url_for('rides') }}" class="text-link">View all</a>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Passenger</th>
+                    <th>Route</th>
+                    <th>Fare</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ride in recent_rides %}
+                <tr>
+                    <td>{{ ride.passenger_name }}</td>
+                    <td>{{ ride.pickup_location }} → {{ ride.dropoff_location }}</td>
+                    <td>৳{{ ride.fare }}</td>
+                    <td><span class="status {{ ride.status|lower|replace(' ', '-') }}">{{ ride.status }}</span></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="empty">No rides yet. Create your first booking.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

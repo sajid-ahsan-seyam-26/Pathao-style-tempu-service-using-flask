@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | TempuGo{% endblock %}
+
+{% block content %}
+<section class="page-title glass-card compact">
+    <span class="pill">Control Panel</span>
+    <h1>Admin Dashboard</h1>
+    <p>Manage Bangladesh tempu ride operation from one clean dashboard.</p>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card">
+        <span>Total Ride Value</span>
+        <strong>৳{{ total_fare }}</strong>
+        <small>All ride requests</small>
+    </div>
+    <div class="stat-card">
+        <span>Completed Income</span>
+        <strong>৳{{ completed_income }}</strong>
+        <small>Completed rides only</small>
+    </div>
+    <div class="stat-card">
+        <span>Pending Rides</span>
+        <strong>{{ pending_rides }}</strong>
+        <small>Need manual assignment</small>
+    </div>
+    <div class="stat-card">
+        <span>Support Tickets</span>
+        <strong>{{ tickets|length }}</strong>
+        <small>Recent tickets shown</small>
+    </div>
+</section>
+
+<section class="dashboard-grid">
+    <div class="table-card glass-card">
+        <div class="table-header">
+            <h2>Recent Rides</h2>
+            <a href="{{ url_for('rides') }}" class="text-link">Manage</a>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Name</th><th>Fare</th><th>Status</th></tr></thead>
+                <tbody>
+                {% for ride in rides %}
+                    <tr>
+                        <td>{{ ride.passenger_name }}</td>
+                        <td>৳{{ ride.fare }}</td>
+                        <td><span class="status {{ ride.status|lower|replace(' ', '-') }}">{{ ride.status }}</span></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="table-card glass-card">
+        <div class="table-header">
+            <h2>Drivers</h2>
+            <a href="{{ url_for('drivers') }}" class="text-link">Add Driver</a>
+        </div>
+        <div class="mini-list">
+            {% for driver in drivers %}
+            <div class="mini-item">
+                <div>
+                    <strong>{{ driver.name }}</strong>
+                    <span>{{ driver.service_area }} · ⭐ {{ driver.rating }}</span>
+                </div>
+                <span class="status {{ driver.status|lower }}">{{ driver.status }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="table-card glass-card">
+        <div class="table-header">
+            <h2>Vehicles</h2>
+            <a href="{{ url_for('vehicles') }}" class="text-link">Add Vehicle</a>
+        </div>
+        <div class="mini-list">
+            {% for vehicle in vehicles %}
+            <div class="mini-item">
+                <div>
+                    <strong>{{ vehicle.plate_number }}</strong>
+                    <span>{{ vehicle.route_name }}</span>
+                </div>
+                <span class="status {{ vehicle.status|lower }}">{{ vehicle.status }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="table-card glass-card">
+        <div class="table-header">
+            <h2>Support</h2>
+            <a href="{{ url_for('support') }}" class="text-link">Open</a>
+        </div>
+        <div class="mini-list">
+            {% for ticket in tickets %}
+            <div class="mini-item">
+                <div>
+                    <strong>{{ ticket.issue_type }}</strong>
+                    <span>{{ ticket.name }} · {{ ticket.phone }}</span>
+                </div>
+                <span class="status {{ ticket.status|lower }}">{{ ticket.status }}</span>
+            </div>
+            {% else %}
+            <p class="empty">No support tickets.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

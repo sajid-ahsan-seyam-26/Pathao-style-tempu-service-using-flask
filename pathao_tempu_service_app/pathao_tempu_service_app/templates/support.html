@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Support | TempuGo{% endblock %}
+
+{% block content %}
+<section class="page-title glass-card compact">
+    <span class="pill">Customer Care</span>
+    <h1>Support Center</h1>
+    <p>Handle passenger complaints, lost items, driver issues and payment problems.</p>
+</section>
+
+<section class="form-layout">
+    <div class="form-card glass-card">
+        <h2>Create Support Ticket</h2>
+        <form method="POST">
+            <div class="form-grid">
+                <div class="form-group"><label>Name</label><input name="name" required></div>
+                <div class="form-group"><label>Phone</label><input name="phone" required></div>
+                <div class="form-group">
+                    <label>Issue Type</label>
+                    <select name="issue_type">
+                        <option>Lost Item</option>
+                        <option>Payment Issue</option>
+                        <option>Driver Complaint</option>
+                        <option>Safety Concern</option>
+                        <option>General Query</option>
+                    </select>
+                </div>
+                <div class="form-group wide-field">
+                    <label>Message</label>
+                    <textarea name="message" rows="5" required placeholder="Write the details here"></textarea>
+                </div>
+            </div>
+            <button class="btn primary full" type="submit">Submit Ticket</button>
+        </form>
+    </div>
+
+    <div class="table-card glass-card wide">
+        <div class="table-header"><h2>All Support Tickets</h2></div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Name</th><th>Phone</th><th>Issue</th><th>Message</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                {% for ticket in tickets %}
+                    <tr>
+                        <td>{{ ticket.name }}</td>
+                        <td>{{ ticket.phone }}</td>
+                        <td>{{ ticket.issue_type }}</td>
+                        <td>{{ ticket.message }}</td>
+                        <td><span class="status {{ ticket.status|lower }}">{{ ticket.status }}</span></td>
+                        <td>
+                            {% if ticket.status != "Closed" %}
+                            <form action="{{ url_for('close_ticket', ticket_id=ticket.id) }}" method="POST">
+                                <button class="small-btn" type="submit">Close</button>
+                            </form>
+                            {% else %}
+                            Done
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="empty">No support tickets found.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

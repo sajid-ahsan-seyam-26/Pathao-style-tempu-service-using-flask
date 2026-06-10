@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Drivers | TempuGo{% endblock %}
+
+{% block content %}
+<section class="page-title glass-card compact">
+    <span class="pill">Driver Management</span>
+    <h1>Drivers</h1>
+    <p>Add, view and monitor Bangladesh tempu drivers.</p>
+</section>
+
+<section class="form-layout">
+    <div class="form-card glass-card">
+        <h2>Add New Driver</h2>
+        <form method="POST">
+            <div class="form-grid">
+                <div class="form-group"><label>Name</label><input name="name" required></div>
+                <div class="form-group"><label>Phone</label><input name="phone" required></div>
+                <div class="form-group"><label>NID</label><input name="nid"></div>
+                <div class="form-group"><label>License No</label><input name="license_no"></div>
+                <div class="form-group"><label>Service Area</label><input name="service_area" placeholder="Mirpur / GEC / Zindabazar" required></div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status">
+                        <option>Available</option>
+                        <option>Busy</option>
+                        <option>Offline</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn primary full" type="submit">Save Driver</button>
+        </form>
+    </div>
+
+    <div class="table-card glass-card wide">
+        <div class="table-header"><h2>All Drivers</h2></div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Name</th><th>Phone</th><th>Area</th><th>Rating</th><th>Rides</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                {% for driver in drivers %}
+                    <tr>
+                        <td>{{ driver.name }}</td>
+                        <td>{{ driver.phone }}</td>
+                        <td>{{ driver.service_area }}</td>
+                        <td>⭐ {{ driver.rating }}</td>
+                        <td>{{ driver.total_rides }}</td>
+                        <td><span class="status {{ driver.status|lower }}">{{ driver.status }}</span></td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="empty">No drivers found.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

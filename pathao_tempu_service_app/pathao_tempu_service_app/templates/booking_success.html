@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Booking Success | TempuGo{% endblock %}
+
+{% block content %}
+<section class="success-card glass-card">
+    <div class="success-icon">✓</div>
+    <h1>Ride Request Created</h1>
+    <p>Your ride information has been saved successfully.</p>
+
+    <div class="receipt-grid">
+        <div><span>Passenger</span><strong>{{ ride.passenger_name }}</strong></div>
+        <div><span>Phone</span><strong>{{ ride.passenger_phone }}</strong></div>
+        <div><span>Pickup</span><strong>{{ ride.pickup_location }}</strong></div>
+        <div><span>Drop-off</span><strong>{{ ride.dropoff_location }}</strong></div>
+        <div><span>Distance</span><strong>{{ ride.distance_km }} KM</strong></div>
+        <div><span>Fare</span><strong>৳{{ ride.fare }}</strong></div>
+        <div><span>Status</span><strong>{{ ride.status }}</strong></div>
+        <div><span>Payment</span><strong>{{ ride.payment_method }}</strong></div>
+        <div><span>Driver</span><strong>{{ ride.driver.name if ride.driver else "Waiting" }}</strong></div>
+        <div><span>Vehicle</span><strong>{{ ride.vehicle.plate_number if ride.vehicle else "Waiting" }}</strong></div>
+    </div>
+
+    <form action="{{ url_for('rate_ride', ride_id=ride.id) }}" method="POST" class="rating-box">
+        <label>Rate this ride</label>
+        <select name="rating">
+            <option value="5">5 - Excellent</option>
+            <option value="4">4 - Good</option>
+            <option value="3">3 - Average</option>
+            <option value="2">2 - Poor</option>
+            <option value="1">1 - Bad</option>
+        </select>
+        <button class="btn secondary" type="submit">Submit Rating</button>
+    </form>
+
+    <div class="hero-actions center">
+        <a href="{{ url_for('book_ride') }}" class="btn primary">Book Another</a>
+        <a href="{{ url_for('rides') }}" class="btn secondary">View Rides</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Vehicles | TempuGo{% endblock %}
+
+{% block content %}
+<section class="page-title glass-card compact">
+    <span class="pill">Fleet Management</span>
+    <h1>Tempu Vehicles</h1>
+    <p>Manage plate number, route, owner, fitness and assigned driver.</p>
+</section>
+
+<section class="form-layout">
+    <div class="form-card glass-card">
+        <h2>Add New Vehicle</h2>
+        <form method="POST">
+            <div class="form-grid">
+                <div class="form-group"><label>Plate Number</label><input name="plate_number" placeholder="DHAKA-METRO-THA-11-2233" required></div>
+                <div class="form-group"><label>Model</label><input name="model" placeholder="Bajaj RE CNG" required></div>
+                <div class="form-group"><label>Capacity</label><input type="number" name="capacity" min="1" value="4" required></div>
+                <div class="form-group"><label>Owner Name</label><input name="owner_name" required></div>
+                <div class="form-group"><label>Route Name</label><input name="route_name" placeholder="Mirpur 10 - Farmgate" required></div>
+                <div class="form-group"><label>Fitness Expiry</label><input name="fitness_expiry" placeholder="2026-12-20"></div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status"><option>Active</option><option>Maintenance</option><option>Inactive</option></select>
+                </div>
+                <div class="form-group">
+                    <label>Assign Driver</label>
+                    <select name="driver_id">
+                        <option value="">No driver</option>
+                        {% for driver in drivers %}
+                            <option value="{{ driver.id }}">{{ driver.name }} - {{ driver.service_area }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <button class="btn primary full" type="submit">Save Vehicle</button>
+        </form>
+    </div>
+
+    <div class="table-card glass-card wide">
+        <div class="table-header"><h2>All Vehicles</h2></div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Plate</th><th>Model</th><th>Route</th><th>Driver</th><th>Fitness</th><th>Status</th></tr></thead>
+                <tbody>
+                {% for vehicle in vehicles %}
+                    <tr>
+                        <td>{{ vehicle.plate_number }}</td>
+                        <td>{{ vehicle.model }}</td>
+                        <td>{{ vehicle.route_name }}</td>
+                        <td>{{ vehicle.driver.name if vehicle.driver else "Not assigned" }}</td>
+                        <td>{{ vehicle.fitness_expiry }}</td>
+                        <td><span class="status {{ vehicle.status|lower }}">{{ vehicle.status }}</span></td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="empty">No vehicles found.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}
