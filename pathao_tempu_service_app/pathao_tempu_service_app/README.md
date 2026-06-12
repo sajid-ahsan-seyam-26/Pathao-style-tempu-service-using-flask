@@ -1,6 +1,6 @@
 # TempuGo Bangladesh - Pathao-style Tempu Service App
 
-A beginner-friendly Flask project for a Bangladesh local tempu/CNG ride service platform.
+A  Flask project for a Bangladesh local tempu ride service platform.
 
 ## Main Features
 
@@ -20,26 +20,6 @@ A beginner-friendly Flask project for a Bangladesh local tempu/CNG ride service 
 
 ## Project Structure
 
-```text
-pathao_tempu_service_app/
-│── app.py
-│── requirements.txt
-│── README.md
-│── templates/
-│   ├── base.html
-│   ├── home.html
-│   ├── book.html
-│   ├── booking_success.html
-│   ├── admin.html
-│   ├── drivers.html
-│   ├── vehicles.html
-│   ├── rides.html
-│   └── support.html
-│── static/
-│   ├── css/style.css
-│   ├── js/main.js
-│   └── images/tempu_background.jpg
-```
 
 ## How to Run
 
@@ -62,10 +42,3 @@ python app.py
 http://127.0.0.1:5000
 ```
 
-## Notes for Beginners
-
-- The database file will be created automatically inside the `instance` folder.
-- Demo drivers and vehicles are inserted automatically when the database is empty.
-- You can edit fare calculation inside `calculate_fare()` in `app.py`.
-- You can edit design from `static/css/style.css`.
-- You can edit frontend JavaScript from `static/js/main.js`.
