@@ -1,6 +1,4 @@
-// ===============================
-// Mobile Menu
-// ===============================
+
 const menuButton = document.getElementById("menuButton");
 const navLinks = document.getElementById("navLinks");
 
@@ -10,9 +8,6 @@ if (menuButton) {
     });
 }
 
-// ===============================
-// Fare Calculation
-// ===============================
 function calculateFare(distance, passengers) {
     const baseFare = 30;
     const perKmRate = 18;
@@ -58,5 +53,5 @@ function quickFareEstimate() {
     document.getElementById("quickFareResult").textContent = "Estimated fare: ৳" + fare;
 }
 
-// Make the function available for the onclick button
+
 window.quickFareEstimate = quickFareEstimate;
