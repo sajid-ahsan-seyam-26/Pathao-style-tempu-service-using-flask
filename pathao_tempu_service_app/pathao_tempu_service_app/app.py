@@ -10,9 +10,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
-# =========================
-# DATABASE MODELS
-# =========================
 class Driver(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -72,9 +69,6 @@ class SupportTicket(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-# =========================
-# HELPER FUNCTIONS
-# =========================
 def calculate_fare(distance_km, passenger_count):
     """Simple Bangladesh-friendly fare formula.
     Beginner-friendly calculation:
@@ -126,9 +120,7 @@ def seed_data():
         db.session.commit()
 
 
-# =========================
-# ROUTES
-# =========================
+
 @app.route("/")
 def home():
     total_drivers = Driver.query.count()
@@ -383,10 +375,6 @@ def close_ticket(ticket_id):
     flash("Support ticket closed.", "success")
     return redirect(url_for("support"))
 
-
-# =========================
-# APP STARTER
-# =========================
 with app.app_context():
     db.create_all()
     seed_data()
